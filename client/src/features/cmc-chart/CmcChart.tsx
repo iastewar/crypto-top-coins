@@ -105,6 +105,10 @@ const CmcChart = () => {
         animationDuration: ANIMATION_DURATION / 10,
         animationDurationUpdate: ANIMATION_DURATION / 10,
       },
+      grid: {
+        left: 0,
+        containLabel: true
+      },
       series: [
         {
           realtimeSort: true,
