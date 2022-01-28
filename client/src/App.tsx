@@ -1,18 +1,27 @@
 import React, { useEffect } from "react";
 import logo from "./logo.svg";
-import "./App.css";
+import "./App.scss";
 import ReactECharts from "echarts-for-react";
 import { Button } from "react-bootstrap";
 import { Link, Route, Routes } from "react-router-dom";
 
-const getTest = async () => {
-  const res = await fetch("/test");
-  return await res.text();
+interface CmcData {
+  year: number;
+  month: number;
+  name: string;
+  rank: number;
+  symbol: string;
+  marketCap: number;
+}
+
+const getCmcData = async () => {
+  const res = await fetch("/cmc-data");
+  return await res.json();
 };
 
 function App() {
   useEffect(() => {
-    getTest().then((text) => console.log(text));
+    getCmcData().then((data) => console.log(data));
   }, []);
 
   const option = {

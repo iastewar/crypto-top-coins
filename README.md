@@ -1,4 +1,6 @@
-# React Node Skeleton
+# Crypto Top Coins
+
+Showcases the top 20 crypto coins over time.
 
 ## Setup
 
