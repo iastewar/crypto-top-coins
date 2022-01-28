@@ -17,27 +17,8 @@ Run ```sh build.sh```, then you can run the server (in server directory) with ``
 ## Deploy
 
 Deploy the server directory to Azure with the vscode extension (after building).
+Can alternatively use the Dockerfile provided.
 
-## Docker example
+## Update data
 
-### Build and push (local)
-
-docker build -t something.azurecr.io/project:1.0.0 .
-
-docker login something.azurecr.io
-
-docker push something.azurecr.io/project:1.0.0
-
-### Pull and start (VM)
-
-docker login something.azurecr.io
-
-docker pull something.azurecr.io/project:1.0.0
-
-docker stop project
-
-docker rm project
-
-docker run -d -p 5000:5000 --restart=always --name=project something.azurecr.io/project:1.0.0
-
-(Note: can use -v to mount directories such as logs e.g. -v /home/user/project/logs:/project/logs)
+run ```node app.js``` in the cmc-scrapper directory. This will scrape coin market cap for all historical data.
