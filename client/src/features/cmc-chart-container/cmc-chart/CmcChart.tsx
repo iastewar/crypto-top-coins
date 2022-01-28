@@ -59,7 +59,7 @@ const CmcChart = ({ cmcData }: { cmcData: CmcData[] }) => {
     <>
       <ReactECharts
         option={getOption(cmcData, dateIndex)}
-        style={{ height: "600px" }}
+        style={{ height: "525px" }} // TODO: make this dynamic
       ></ReactECharts>
 
       <Form.Label>{getCurrentDate(cmcData, dateIndex)}</Form.Label>

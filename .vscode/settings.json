@@ -1,5 +1,5 @@
 {
-    "appService.defaultWebAppToDeploy": "/subscriptions/e7d82d8e-5733-49e4-b411-54af741fe0bc/resourceGroups/test/providers/Microsoft.Web/sites/ian-react-test",
-    "appService.deploySubpath": "server",
-    "appService.showBuildDuringDeployPrompt": false
+  "appService.defaultWebAppToDeploy": "/subscriptions/e7d82d8e-5733-49e4-b411-54af741fe0bc/resourceGroups/linux-centralus/providers/Microsoft.Web/sites/crypto-top-coins",
+  "appService.deploySubpath": "server",
+  "appService.showBuildDuringDeployPrompt": false
 }

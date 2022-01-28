@@ -1,10 +1,11 @@
 import express from "express";
 import path from "path";
+import compression from "compression";
 import { readFile } from "fs-extra";
-import { setupAppLogger, setupExpressLogger } from "./logging";
 
 const app = express();
 app.use(express.json());
+app.use(compression());
 const port = process.env.PORT || 5000;
 
 const startServer = () => {
@@ -14,9 +15,6 @@ const startServer = () => {
 };
 
 const main = () => {
-  setupExpressLogger(app);
-  setupAppLogger();
-
   app.use(express.static(path.join(process.cwd(), "public")));
 
   app.get("/cmc-data", async (req, res) => {
