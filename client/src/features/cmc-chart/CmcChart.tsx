@@ -5,6 +5,8 @@ import "./CmcChart.scss";
 import { Button, Form, Spinner } from "react-bootstrap";
 import dayjs from "dayjs";
 import accounting from "accounting-js";
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
 
 const ANIMATION_DURATION = 3000;
 
@@ -181,7 +183,7 @@ const CmcChart = () => {
 
       <Form.Label>{getCurrentDate()}</Form.Label>
       <Form.Range value={dateIndex} onChange={handleRangeChange} min="0" max={getOrderedDates().length - 1} step="1" />
-      <Button variant="dark" onClick={() => handlePlayPauseClick(!playInterval)}>{playInterval ? 'Pause' : 'Play'}</Button>
+      <Button variant="dark" onClick={() => handlePlayPauseClick(!playInterval)}>{playInterval ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />}</Button>
     </>
   );
 };
