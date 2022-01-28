@@ -6,7 +6,7 @@ import { Spinner } from "react-bootstrap";
 import dayjs from "dayjs";
 import accounting from "accounting-js";
 
-const ANIMATION_DURATION = 1000;
+const ANIMATION_DURATION = 3000;
 
 const toMillions = (n: number) => {
   return n / 10 ** 6;
@@ -14,11 +14,45 @@ const toMillions = (n: number) => {
 
 const CmcChart = () => {
   const [cmcData, setCmcdata] = useState([] as CmcData[]);
-  const [filteredCmcData, setFilteredCmcData] = useState([] as CmcData[]);
-  const [dates, setDates] = useState([] as { year: number; month: number }[]);
   const [dateIndex, setDateIndex] = useState(0);
 
+  const getFilteredCmcData = () => {
+    const dates = getOrderedDates();
+
+    let data: CmcData[] = [];
+
+    if (dates.length === 0) {
+      return data;
+    }
+
+    let index = dateIndex;
+    if (dateIndex >= dates.length) {
+      index = dates.length - 1;
+    }
+
+    data = cmcData.filter(
+      (e) =>
+        e.year === dates[index].year && e.month === dates[index].month
+    );
+
+    return data;
+  }
+
+  const getOrderedDates = () => {
+    let dates = cmcData.map((e) => ({ year: e.year, month: e.month }));
+    const dateSet = new Set(dates.map((e) => `${e.year}-${e.month}`));
+    dates = Array.from(dateSet).map((e) => ({
+      year: parseInt(e.split("-")[0]),
+      month: parseInt(e.split("-")[1]),
+    }));
+    dates.sort((a, b) => a.year * 100 + b.month);
+
+    return dates;
+  }
+
   const getCurrentDate = () => {
+    const dates = getOrderedDates();
+  
     if (dates.length === 0) {
       return "";
     }
@@ -42,6 +76,7 @@ const CmcChart = () => {
     getCmcData()
       .then((data) => setCmcdata(data))
       .then(() => {
+        // TODO: do this on play/pause
         let i = dateIndex;
 
         const run = () => {
@@ -66,30 +101,9 @@ const CmcChart = () => {
     };
   }, []);
 
-  // dates
-  useEffect(() => {
-    let dates = cmcData.map((e) => ({ year: e.year, month: e.month }));
-    const dateSet = new Set(dates.map((e) => `${e.year}-${e.month}`));
-    dates = Array.from(dateSet).map((e) => ({
-      year: parseInt(e.split("-")[0]),
-      month: parseInt(e.split("-")[1]),
-    }));
-    dates.sort((a, b) => a.year * 100 + b.month);
-    setDates(dates);
-  }, [cmcData]);
-
-  // filtered cmc data
-  useEffect(() => {
-    if (dates.length > 0 && dateIndex < dates.length) {
-      const data = cmcData.filter(
-        (e) =>
-          e.year === dates[dateIndex].year && e.month === dates[dateIndex].month
-      );
-      setFilteredCmcData(data);
-    }
-  }, [dateIndex, cmcData, dates]);
-
   const getOption = () => {
+    const filteredCmcData = getFilteredCmcData();
+
     return {
       xAxis: {
         max: "dataMax",
