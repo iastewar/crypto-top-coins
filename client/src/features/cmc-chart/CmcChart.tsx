@@ -8,7 +8,7 @@ import accounting from "accounting-js";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faPause } from '@fortawesome/free-solid-svg-icons'
 
-const ANIMATION_DURATION = 3000;
+const ANIMATION_DURATION = 1000;
 
 const toMillions = (n: number) => {
   return n / 10 ** 6;
@@ -20,7 +20,7 @@ const CmcChart = () => {
   const [playInterval, setPlayInterval] = useState(undefined as NodeJS.Timeout);
 
   const getFilteredCmcData = () => {
-    const dates = getOrderedDates();
+    const dates = getDates();
 
     let data: CmcData[] = [];
 
@@ -35,26 +35,26 @@ const CmcChart = () => {
 
     data = cmcData.filter(
       (e) =>
-        e.year === dates[index].year && e.month === dates[index].month
+        e.year === dates[index].year && e.month === dates[index].month && e.day === dates[index].day
     );
 
     return data;
   }
 
-  const getOrderedDates = () => {
-    let dates = cmcData.map((e) => ({ year: e.year, month: e.month }));
-    const dateSet = new Set(dates.map((e) => `${e.year}-${e.month}`));
+  const getDates = () => {
+    let dates = cmcData.map((e) => ({ year: e.year, month: e.month, day: e.day }));
+    const dateSet = new Set(dates.map((e) => `${e.year}-${e.month}-${e.day}`));
     dates = Array.from(dateSet).map((e) => ({
       year: parseInt(e.split("-")[0]),
       month: parseInt(e.split("-")[1]),
+      day: parseInt(e.split("-")[2])
     }));
-    dates.sort((a, b) => a.year * 100 + b.month);
 
     return dates;
   }
 
   const getCurrentDate = () => {
-    const dates = getOrderedDates();
+    const dates = getDates();
   
     if (dates.length === 0) {
       return "";
@@ -107,7 +107,7 @@ const CmcChart = () => {
       run();
     }, 0);
 
-    // change month every ANIMATION_DURATION
+    // change date every ANIMATION_DURATION
     const interval = setInterval(() => {
       run();
     }, ANIMATION_DURATION);
@@ -182,7 +182,7 @@ const CmcChart = () => {
       ></ReactECharts>
 
       <Form.Label>{getCurrentDate()}</Form.Label>
-      <Form.Range value={dateIndex} onChange={handleRangeChange} min="0" max={getOrderedDates().length - 1} step="1" />
+      <Form.Range value={dateIndex} onChange={handleRangeChange} min="0" max={getDates().length - 1} step="1" />
       <Button variant="dark" onClick={() => handlePlayPauseClick(!playInterval)}>{playInterval ? <FontAwesomeIcon icon={faPause} /> : <FontAwesomeIcon icon={faPlay} />}</Button>
     </>
   );

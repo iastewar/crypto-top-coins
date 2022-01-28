@@ -1,6 +1,7 @@
 export interface CmcData {
   year: number;
   month: number;
+  day: number;
   name: string;
   rank: number;
   symbol: string;

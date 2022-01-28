@@ -14,8 +14,11 @@ const getHistoricalUrls = async (page) => {
     const res = [];
     const rows = document.querySelectorAll("div.row > div");
     for (const row of rows) {
-      const url = row.querySelector("a").getAttribute("href");
-      res.push(url);
+      const aTags = row.querySelectorAll("a");
+      for (const aTag of aTags) {
+        const url = aTag.getAttribute("href");
+        res.push(url);
+      }
     }
 
     return res;
@@ -31,10 +34,11 @@ const getDateData = async (page, url) => {
   const dateDayjs = dayjs(url.split("/")[2], "YYYYMMDD");
   const year = dateDayjs.year();
   const month = dateDayjs.month() + 1;
+  const day = dateDayjs.date();
 
   await page.goto(`${baseUrl}${url}`);
   const dateData = await page.evaluate(
-    (year, month) => {
+    (year, month, day) => {
       const res = [];
       const rows = document.querySelectorAll("table tbody tr");
       for (const row of rows) {
@@ -56,6 +60,7 @@ const getDateData = async (page, url) => {
         res.push({
           year: year,
           month: month,
+          day: day,
           rank: parseInt(rankElement.innerText),
           name: nameElement.innerText,
           symbol: symbolElement.innerText,
@@ -66,7 +71,8 @@ const getDateData = async (page, url) => {
       return res;
     },
     year,
-    month
+    month,
+    day
   );
 
   return dateData.map(e => {
