@@ -2,7 +2,7 @@ import ReactECharts from "echarts-for-react";
 import { useEffect, useState } from "react";
 import { CmcData, getCmcData } from "./cmcChartApi";
 import "./CmcChart.scss";
-import { Spinner } from "react-bootstrap";
+import { Button, Form, Spinner } from "react-bootstrap";
 import dayjs from "dayjs";
 import accounting from "accounting-js";
 
@@ -15,6 +15,7 @@ const toMillions = (n: number) => {
 const CmcChart = () => {
   const [cmcData, setCmcdata] = useState([] as CmcData[]);
   const [dateIndex, setDateIndex] = useState(0);
+  const [playInterval, setPlayInterval] = useState(undefined as NodeJS.Timeout);
 
   const getFilteredCmcData = () => {
     const dates = getOrderedDates();
@@ -71,35 +72,46 @@ const CmcChart = () => {
 
   // cmc data
   useEffect(() => {
-    let interval: NodeJS.Timeout;
-
     getCmcData()
       .then((data) => setCmcdata(data))
-      .then(() => {
-        // TODO: do this on play/pause
-        let i = dateIndex;
-
-        const run = () => {
-          i++;
-          setDateIndex(i);
-        };
-
-        setTimeout(() => {
-          run();
-        }, 0);
-
-        // change month every ANIMATION_DURATION
-        interval = setInterval(() => {
-          run();
-        }, ANIMATION_DURATION);
-      });
+      .then(() => handlePlayPauseClick());
 
     return () => {
-      if (interval) {
-        clearInterval(interval);
+      if (playInterval) {
+        clearInterval(playInterval);
       }
     };
   }, []);
+
+  const handleRangeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDateIndex(parseInt(e.target.value));
+  }
+
+  const handlePlayPauseClick = (play = true) => {
+    if (playInterval) {
+      clearInterval(playInterval);
+      setPlayInterval(undefined);
+    }
+
+    if (!play) {
+      return;
+    }
+
+    const run = () => {
+      setDateIndex(i => i + 1);
+    };
+
+    setTimeout(() => {
+      run();
+    }, 0);
+
+    // change month every ANIMATION_DURATION
+    const interval = setInterval(() => {
+      run();
+    }, ANIMATION_DURATION);
+
+    setPlayInterval(interval);
+  }
 
   const getOption = () => {
     const filteredCmcData = getFilteredCmcData();
@@ -166,7 +178,10 @@ const CmcChart = () => {
         option={getOption()}
         style={{ height: "600px" }}
       ></ReactECharts>
-      <div>{getCurrentDate()}</div>
+
+      <Form.Label>{getCurrentDate()}</Form.Label>
+      <Form.Range value={dateIndex} onChange={handleRangeChange} min="0" max={getOrderedDates().length - 1} step="1" />
+      <Button variant="dark" onClick={() => handlePlayPauseClick(!playInterval)}>{playInterval ? 'Pause' : 'Play'}</Button>
     </>
   );
 };
