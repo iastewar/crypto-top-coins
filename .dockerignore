@@ -1,0 +1,7 @@
+.git/*
+.vscode/*
+client/node_modules/*
+server/node_modules/*
+server/logs/*
+server/build/*
+server/public/*
