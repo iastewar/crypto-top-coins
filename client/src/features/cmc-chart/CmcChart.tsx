@@ -19,14 +19,19 @@ const CmcChart = () => {
   const [dateIndex, setDateIndex] = useState(0);
 
   const getCurrentDate = () => {
-    if (dates.length === 0 || dateIndex >= dates.length) {
+    if (dates.length === 0) {
       return "";
     }
 
-    const currentDate = dates[dateIndex];
+    let index = dateIndex;
+    if (dateIndex >= dates.length) {
+      index = dates.length - 1;
+    }
+
+    const currentDate = dates[index];
     return dayjs()
       .year(currentDate.year)
-      .month(currentDate.month)
+      .month(currentDate.month - 1)
       .format("MMMM YYYY");
   };
 
@@ -95,7 +100,7 @@ const CmcChart = () => {
       },
       yAxis: {
         type: "category",
-        data: filteredCmcData.map((e) => e.name),
+        data: filteredCmcData.map((e) => `${e.name} (${e.symbol})`),
         inverse: true,
         animationDuration: ANIMATION_DURATION / 10,
         animationDurationUpdate: ANIMATION_DURATION / 10,
