@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "accounting-js": "^1.1.1",
     "dayjs": "^1.10.7",
     "puppeteer": "^13.1.2"
   }

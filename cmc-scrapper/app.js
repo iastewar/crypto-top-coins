@@ -1,6 +1,7 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 const dayjs = require("dayjs");
+const accounting = require('accounting-js');
 
 const baseUrl = "https://coinmarketcap.com";
 
@@ -55,7 +56,7 @@ const getDateData = async (page, url) => {
         res.push({
           year: year,
           month: month,
-          rank: rankElement.innerText,
+          rank: parseInt(rankElement.innerText),
           name: nameElement.innerText,
           symbol: symbolElement.innerText,
           marketCap: marketCapElement.innerText,
@@ -68,7 +69,10 @@ const getDateData = async (page, url) => {
     month
   );
 
-  return dateData;
+  return dateData.map(e => {
+    e.marketCap = accounting.unformat(e.marketCap);
+    return e;
+  });
 };
 
 (async () => {
