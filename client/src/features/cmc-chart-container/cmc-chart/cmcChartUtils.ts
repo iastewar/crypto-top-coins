@@ -69,6 +69,15 @@ export const getFilteredCmcData = (cmcData: CmcData[], dateIndex: number) => {
 
 export const getOption = (cmcData: CmcData[], dateIndex: number) => {
   const filteredCmcData = getFilteredCmcData(cmcData, dateIndex);
+  const richImages = {};
+  for (let i = 0; i < filteredCmcData.length; i++) {
+    richImages["img" + i] = {
+      height: 15,
+      backgroundColor: {
+        image: filteredCmcData[i].imgSrc,
+      },
+    }
+  }
 
   return {
     xAxis: {
@@ -80,10 +89,22 @@ export const getOption = (cmcData: CmcData[], dateIndex: number) => {
     },
     yAxis: {
       type: "category",
-      data: filteredCmcData.map((e) => `${e.name} (${e.symbol})`),
+      data: filteredCmcData.map((e) => `${e.name};${e.symbol}`),
       inverse: true,
       animationDuration: ANIMATION_DURATION / 10,
       animationDurationUpdate: ANIMATION_DURATION / 10,
+      axisLabel: {
+        formatter: (value, index) => `{img${index}|} {bold|${value.split(';')[0]}} {light|${value.split(';')[1]}}`,
+        rich: {
+          bold: {
+            fontWeight: 700
+          },
+          light: {
+            fontWeight: 100
+          },
+          ...richImages
+        },
+      },
     },
     grid: {
       left: 0,

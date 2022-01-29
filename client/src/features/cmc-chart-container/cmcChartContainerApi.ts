@@ -6,6 +6,7 @@ export interface CmcData {
   rank: number;
   symbol: string;
   marketCap: number;
+  imgSrc: string;
 }
 
 export const getCmcData = async () => {

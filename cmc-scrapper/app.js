@@ -1,15 +1,16 @@
 const puppeteer = require("puppeteer");
 const fs = require("fs");
 const dayjs = require("dayjs");
-const accounting = require('accounting-js');
+const accounting = require("accounting-js");
 
-const baseUrl = "https://coinmarketcap.com";
+const BASE_URL = "https://coinmarketcap.com";
+const TOP = 10;
 
 /**
  * returns a list of urls (first day of every month)
  */
 const getHistoricalUrls = async (page) => {
-  await page.goto(`${baseUrl}/historical/`);
+  await page.goto(`${BASE_URL}/historical/`);
   const urls = await page.evaluate(() => {
     const res = [];
     const rows = document.querySelectorAll("div.row > div");
@@ -36,26 +37,24 @@ const getDateData = async (page, url) => {
   const month = dateDayjs.month() + 1;
   const day = dateDayjs.date();
 
-  await page.goto(`${baseUrl}${url}`);
+  await page.goto(`${BASE_URL}${url}`);
+  await autoScroll(page); // load all content
+
   const dateData = await page.evaluate(
-    (year, month, day) => {
+    (year, month, day, TOP) => {
       const res = [];
       const rows = document.querySelectorAll("table tbody tr");
-      for (const row of rows) {
+      let end = rows.length;
+      if (end > TOP) end = TOP;
+
+      for (let i = 0; i < end; i++) {
+        const row = rows[i]
         const rankElement = row.querySelector("td:nth-child(1)");
         const nameElement = row.querySelector("td:nth-child(2)");
         const symbolElement = row.querySelector("td:nth-child(3)");
         const marketCapElement = row.querySelector("td:nth-child(4)");
 
-        if (
-          !rankElement ||
-          !nameElement ||
-          !symbolElement ||
-          !marketCapElement
-        ) {
-          // keep looping until the rows do not contain data (note: this happens to be on the 20th row)
-          break;
-        }
+        const imgSrc = nameElement.querySelector("img").getAttribute("src");
 
         res.push({
           year: year,
@@ -65,6 +64,7 @@ const getDateData = async (page, url) => {
           name: nameElement.innerText,
           symbol: symbolElement.innerText,
           marketCap: marketCapElement.innerText,
+          imgSrc: imgSrc,
         });
       }
 
@@ -72,12 +72,35 @@ const getDateData = async (page, url) => {
     },
     year,
     month,
-    day
+    day,
+    TOP
   );
 
-  return dateData.map(e => {
+  return dateData.map((e) => {
     e.marketCap = accounting.unformat(e.marketCap);
     return e;
+  });
+};
+
+/**
+ * scrolls to the bottom of the page
+ */
+const autoScroll = async (page) => {
+  await page.evaluate(async () => {
+    await new Promise((resolve, reject) => {
+      let totalHeight = 0;
+      const distance = 100;
+      const timer = setInterval(() => {
+        const scrollHeight = document.body.scrollHeight;
+        window.scrollBy(0, distance);
+        totalHeight += distance;
+
+        if (totalHeight >= scrollHeight) {
+          clearInterval(timer);
+          resolve();
+        }
+      }, 5);
+    });
   });
 };
 
