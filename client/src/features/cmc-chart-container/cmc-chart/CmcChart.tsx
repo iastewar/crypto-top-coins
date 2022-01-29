@@ -77,7 +77,7 @@ const CmcChart = ({
         step="1"
       />
       <Button
-        variant="dark"
+        variant="light"
         onClick={() => handlePlayPauseClick(!playInterval)}
       >
         {playInterval ? (
