@@ -131,6 +131,7 @@ export const getOption = (cmcData: CmcData[], dateIndex: number) => {
           show: false,
           position: "right",
           valueAnimation: true,
+          color: "#6e7079",
           formatter: (d: any) => accounting.formatMoney(toMillions(d.value)),
         },
         cursor: 'auto',
@@ -160,14 +161,6 @@ export const getOption = (cmcData: CmcData[], dateIndex: number) => {
           },
           yAxis: {
             axisLabel: {
-              rich: {
-                bold: {
-                  color: "#6e7079"
-                },
-                light: {
-                  color: "#6e7079"
-                },
-              },
               inside: false
             }
           },

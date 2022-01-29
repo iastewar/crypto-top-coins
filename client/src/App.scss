@@ -4,13 +4,15 @@
 
 .main-container {
   text-align: center;
-  margin: 2em;
+  padding: 2em;
+  background-color: black;
+  color: white;
 
   h6 {
     color: #6e7079;
   }
 
   @include media-breakpoint-down(md) {
-    margin: 1em;
+    padding: 1em;
   }
 }
