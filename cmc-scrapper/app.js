@@ -89,7 +89,7 @@ const autoScroll = async (page) => {
   await page.evaluate(async () => {
     await new Promise((resolve, reject) => {
       let totalHeight = 0;
-      const distance = 100;
+      const distance = 500;
       const timer = setInterval(() => {
         const scrollHeight = document.body.scrollHeight;
         window.scrollBy(0, distance);
@@ -99,7 +99,7 @@ const autoScroll = async (page) => {
           clearInterval(timer);
           resolve();
         }
-      }, 5);
+      }, 1);
     });
   });
 };
