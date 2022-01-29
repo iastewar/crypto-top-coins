@@ -18,7 +18,7 @@ const CmcChartContainer = () => {
       ) : (
         <CmcChart
           cmcData={cmcData}
-          eChartStyle={{ height: "70vh", minHeight: "400px" }}
+          eChartStyle={{ height: "70vh", minHeight: "500px" }}
         />
       )}
     </div>

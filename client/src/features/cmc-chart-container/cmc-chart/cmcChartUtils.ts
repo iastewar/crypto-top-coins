@@ -83,9 +83,13 @@ export const getOption = (cmcData: CmcData[], dateIndex: number) => {
     xAxis: {
       max: "dataMax",
       type: "log",
+      animationDuration: ANIMATION_DURATION / 10,
+      animationDurationUpdate: ANIMATION_DURATION / 10,
       axisLabel: {
         formatter: (d: any) => accounting.formatMoney(toMillions(d)),
-      },
+        rotate: 90,
+        verticalAlign: 'top'
+      }
     },
     yAxis: {
       type: "category",
@@ -97,14 +101,18 @@ export const getOption = (cmcData: CmcData[], dateIndex: number) => {
         formatter: (value, index) => `{img${index}|} {bold|${value.split(';')[0]}} {light|${value.split(';')[1]}}`,
         rich: {
           bold: {
-            fontWeight: 700
+            fontWeight: 700,
+            color: "white"
           },
           light: {
-            fontWeight: 100
+            fontWeight: 100,
+            color: "white"
           },
           ...richImages
         },
+        inside: true
       },
+      z: 10
     },
     grid: {
       left: 0,
@@ -120,11 +128,15 @@ export const getOption = (cmcData: CmcData[], dateIndex: number) => {
           itemStyle: { color: "#009FFF" }, // TODO: have a different color for every coin
         })),
         label: {
-          show: true,
+          show: false,
           position: "right",
           valueAnimation: true,
           formatter: (d: any) => accounting.formatMoney(toMillions(d.value)),
         },
+        cursor: 'auto',
+        itemStyle: {
+          borderRadius: [0, 5, 5, 0]
+        }
       },
     ],
     legend: {
@@ -134,5 +146,40 @@ export const getOption = (cmcData: CmcData[], dateIndex: number) => {
     animationDurationUpdate: ANIMATION_DURATION,
     animationEasing: "linear",
     animationEasingUpdate: "linear",
+    media: [
+      {
+        query: {
+          minWidth: 768 // desktop view
+        },
+        option: {
+          xAxis: {
+            axisLabel: {
+              rotate: 0,
+              verticalAlign: 'middle',
+            }
+          },
+          yAxis: {
+            axisLabel: {
+              rich: {
+                bold: {
+                  color: "#6e7079"
+                },
+                light: {
+                  color: "#6e7079"
+                },
+              },
+              inside: false
+            }
+          },
+          series: [
+            {
+              label: {
+                show: true
+              }
+            }
+          ]
+        }
+      }
+    ]
   };
 };
