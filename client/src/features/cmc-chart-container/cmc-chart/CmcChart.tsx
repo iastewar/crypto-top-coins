@@ -10,6 +10,7 @@ import {
   getDates,
   getOption,
 } from "./cmcChartUtils";
+import "./CmcChart.scss";
 
 const CmcChart = ({
   cmcData,
@@ -69,13 +70,15 @@ const CmcChart = ({
       ></ReactECharts>
 
       <Form.Label>{getCurrentDate(cmcData, dateIndex)}</Form.Label>
-      <Form.Range
-        value={dateIndex}
-        onChange={handleRangeChange}
-        min="0"
-        max={getDates(cmcData).length - 1}
-        step="1"
-      />
+      <div className="cmc-chart-range-container">
+        <Form.Range
+          value={dateIndex}
+          onChange={handleRangeChange}
+          min="0"
+          max={getDates(cmcData).length - 1}
+          step="1"
+        />
+      </div>
       <Button
         variant="light"
         onClick={() => handlePlayPauseClick(!playInterval)}

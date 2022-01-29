@@ -2,17 +2,12 @@
 @import '~bootstrap/scss/variables';
 @import '~bootstrap/scss/mixins';
 
-.main-container {
-  text-align: center;
-  padding: 1em;
-  background-color: black;
-  color: white;
 
-  h6 {
-    color: #6e7079;
-  }
+.cmc-chart-range-container {
+  width: 90%;
+  margin: auto;
 
   @include media-breakpoint-up(md) {
-    padding: 2em;
+    width: 50%;
   }
 }
