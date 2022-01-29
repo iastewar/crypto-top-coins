@@ -134,7 +134,7 @@ export const getOption = (cmcData: CmcData[], dateIndex: number) => {
           color: "#6e7079",
           formatter: (d: any) => accounting.formatMoney(toMillions(d.value)),
         },
-        cursor: 'auto',
+        silent: true,
         itemStyle: {
           borderRadius: [0, 5, 5, 0]
         }
