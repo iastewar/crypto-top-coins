@@ -16,7 +16,10 @@ const CmcChartContainer = () => {
       {cmcData.length === 0 ? (
         <LoadingSpinner />
       ) : (
-        <CmcChart cmcData={cmcData} />
+        <CmcChart
+          cmcData={cmcData}
+          eChartStyle={{ height: "70vh", minHeight: "400px" }}
+        />
       )}
     </div>
   );

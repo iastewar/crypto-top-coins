@@ -1,4 +1,12 @@
+@import '~bootstrap/scss/functions';
+@import '~bootstrap/scss/variables';
+@import '~bootstrap/scss/mixins';
+
 .main-container {
   text-align: center;
-  margin-top: 2em;
+  margin: 2em;
+
+  @include media-breakpoint-down(md) {
+    margin: 1em;
+  }
 }

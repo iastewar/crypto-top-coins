@@ -1,6 +1,6 @@
 # Crypto Top Coins
 
-Showcases the top 20 crypto coins over time.
+Showcases the top crypto coins over time.
 
 ## Setup
 

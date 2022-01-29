@@ -11,7 +11,13 @@ import {
   getOption,
 } from "./cmcChartUtils";
 
-const CmcChart = ({ cmcData }: { cmcData: CmcData[] }) => {
+const CmcChart = ({
+  cmcData,
+  eChartStyle,
+}: {
+  cmcData: CmcData[];
+  eChartStyle: React.CSSProperties;
+}) => {
   const [dateIndex, setDateIndex] = useState(0);
   const [playInterval, setPlayInterval] = useState(undefined as NodeJS.Timeout);
 
@@ -59,7 +65,7 @@ const CmcChart = ({ cmcData }: { cmcData: CmcData[] }) => {
     <>
       <ReactECharts
         option={getOption(cmcData, dateIndex)}
-        style={{ height: "525px" }} // TODO: make this dynamic
+        style={eChartStyle}
       ></ReactECharts>
 
       <Form.Label>{getCurrentDate(cmcData, dateIndex)}</Form.Label>
