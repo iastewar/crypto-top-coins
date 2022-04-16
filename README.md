@@ -16,8 +16,9 @@ Run ```sh build.sh```, then you can run the server (in server directory) with ``
 
 ## Deploy
 
-Deploy the server directory to Azure with the vscode extension (after building).
-Can alternatively use the Dockerfile provided.
+Deploy the server directory to Azure web app with the vscode extension (after building).
+
+Can alternatively use the Dockerfile provided to deploy to something like cloud run (GCP)
 
 ## Update data
 

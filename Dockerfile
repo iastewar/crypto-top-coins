@@ -1,14 +1,20 @@
-FROM ubuntu:focal
-RUN apt-get update \
-    && DEBIAN_FRONTEND=noninteractive apt-get install -y npm
-RUN npm install -g n
-RUN n 16.13.2
-RUN npm install pm2 -g
+FROM node:17-slim AS builder
+
+WORKDIR /crypto-top-coins/client
+COPY client/package*.json ./
+RUN npm ci
+WORKDIR /crypto-top-coins/server
+COPY server/package*.json ./
+RUN npm ci
 
 WORKDIR /crypto-top-coins
-COPY . .
+COPY . ./
 RUN sh build.sh
-ARG NODE_ENV=development
-EXPOSE 5000
 
-CMD ["pm2-runtime", "./build/app.js"]
+
+FROM node:17-slim
+WORKDIR /crypto-top-coins/server
+COPY --from=builder /crypto-top-coins/server ./
+ARG NODE_ENV=production
+EXPOSE 5000
+CMD ["npm", "start"]
