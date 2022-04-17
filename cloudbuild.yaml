@@ -7,6 +7,7 @@ steps:
       - >-
         docker pull gcr.io/$PROJECT_ID/crypto-top-coins:latest
         || exit 0
+    id: PullLatest
   # Build the container images
   - name: "gcr.io/cloud-builders/docker"
     args:
