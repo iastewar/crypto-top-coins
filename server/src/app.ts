@@ -6,7 +6,7 @@ import { readFile } from "fs-extra";
 const app = express();
 app.use(express.json());
 app.use(compression());
-const port = process.env.PORT || 5000;
+const port = process.env.PORT || 8080;
 
 const startServer = () => {
   const server = app.listen(port, () => {
