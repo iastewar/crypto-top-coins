@@ -9,11 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
-    - name: Use Node.js 17.x
+    - name: Use Node.js 17
       uses: actions/setup-node@v3
       with:
-        node-version: 17.x
+        node-version: 17
         cache: 'npm'
+        cache-dependency-path: ./cmc-scrapper/package-lock.json
     - name: Install Dependencies
       run: npm ci
       working-directory: ./cmc-scrapper
