@@ -24,3 +24,5 @@ included will automatically deploy to cloud run using cloud build.
 ## Update data
 
 run ```node app.js``` in the cmc-scrapper directory. This will scrape coin market cap for all historical data.
+
+TODO: only update most recent month and have an automated job that updates monthly
