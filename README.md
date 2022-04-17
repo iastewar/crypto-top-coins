@@ -18,7 +18,8 @@ Run ```sh build.sh```, then you can run the server (in server directory) with ``
 
 Deploy the server directory to Azure web app with the vscode extension (after building).
 
-Can alternatively use the Dockerfile provided to deploy to something like cloud run (GCP)
+Can alternatively use the Dockerfile provided to deploy to something like cloud run (GCP). The cloudbuld.yaml file
+included will automatically deploy to cloud run using cloud build.
 
 ## Update data
 
