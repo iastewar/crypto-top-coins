@@ -1,4 +1,4 @@
-FROM node:17-slim AS builder
+FROM node:17-slim
 
 WORKDIR /crypto-top-coins/client
 COPY client/package*.json ./
@@ -11,10 +11,7 @@ WORKDIR /crypto-top-coins
 COPY . ./
 RUN sh build.sh
 
-
-FROM node:17-slim
 WORKDIR /crypto-top-coins/server
-COPY --from=builder /crypto-top-coins/server ./
 ARG NODE_ENV=production
 EXPOSE 8080
 CMD ["npm", "start"]

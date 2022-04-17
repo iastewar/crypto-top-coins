@@ -5,3 +5,4 @@ server/node_modules/*
 server/logs/*
 server/build/*
 server/public/*
+cmc-scrapper/*
