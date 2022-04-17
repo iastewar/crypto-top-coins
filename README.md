@@ -23,8 +23,6 @@ Dockerfile.
 
 The cloudbuld.yaml and Dockerfile will automatically deploy to cloud run using cloud build.
 
-TODO: use github actions instead to keep all CI/CD and jobs in the same place.
-
 ## Update data
 
 run ```node app.js``` in the cmc-scrapper directory. This will scrape coin market cap for all historical data.
